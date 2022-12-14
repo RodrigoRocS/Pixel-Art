@@ -15,12 +15,15 @@ const colorPallet = () => {
 };
 
 colorPallet();
-const colorBoxes = () => {
+const colorBoxes = (param) => {
   const colorPallets = document.getElementById('color-palette');
   for (let index = 0; index < 4; index += 1) {
     const colorBox = document.createElement('div');
     colorBox.className = 'color';
+    colorBox.style.border = '1px solid black';
+    colorBox.style.backgroundColor = param[index];
+    colorBox.style.display = 'inline';
     colorPallets.appendChild(colorBox);
   }
 };
-colorBoxes();
+colorBoxes(['black', 'yellow', 'blue', 'red']);
