@@ -1,5 +1,3 @@
-document.body.style.display = 'inline';
-
 const titleHeader = () => {
   const headerH1 = document.getElementsByTagName('body')[0];
   const creatH1 = document.createElement('h1');
@@ -7,7 +5,6 @@ const titleHeader = () => {
   creatH1.innerText = 'Paleta de Cores';
   headerH1.appendChild(creatH1);
 };
-titleHeader();
 
 const colorPallet = () => {
   const palletP = document.getElementsByTagName('body')[0];
@@ -16,7 +13,6 @@ const colorPallet = () => {
   palletP.appendChild(colorPallets);
 };
 
-colorPallet();
 const colorBoxes = () => {
   const colorPallets = document.getElementById('color-palette');
   for (let index = 0; index < 4; index += 1) {
@@ -28,7 +24,11 @@ const colorBoxes = () => {
     colorPallets.appendChild(colorBox);
   }
 };
-colorBoxes();
+
+// const primeBlack = () => {
+//   const paintBoxCol = document.getElementsByClassName('color');
+//   paintBoxCol[0].style.backgroundColor = 'rgb(0,0,0)';
+// };
 
 const randomCollors = () => {
   const r = Math.floor(Math.random() * 255);
@@ -42,6 +42,9 @@ const paintBox = () => {
   const paintBoxCol = document.getElementsByClassName('color');
   for (let index = 1; index < paintBoxCol.length; index += 1) {
     paintBoxCol[index].style.backgroundColor = randomCollors();
+    if (paintBoxCol[0].style.backgroundColor !== 'rgba(0,0,0)') {
+      paintBoxCol[0].style.backgroundColor = 'rgba(0,0,0)';
+    }
   }
 };
 
@@ -54,4 +57,11 @@ const changeColBtn = () => {
   criaBtn.style.marginTop = '25px';
   paiDoBtn.appendChild(criaBtn);
 };
-changeColBtn();
+
+window.onload = () => {
+  titleHeader();
+  colorPallet();
+  colorBoxes();
+  paintBox();
+  changeColBtn();
+};
