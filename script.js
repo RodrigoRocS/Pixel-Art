@@ -126,6 +126,16 @@ const selecionaCor = () => {
   }
 };
 
+const pintaPixel = () => {
+  const getPixel = document.getElementsByClassName('pixel');
+  for (let index = 0; index < getPixel.length; index += 1) {
+    getPixel[index].addEventListener('click', (event) => {
+      const selecionado = document.querySelector('.selected');
+      event.target.style.backgroundColor = selecionado.style.backgroundColor;
+    });
+  }
+};
+
 window.onload = () => {
   titleHeader();
   colorPallet();
@@ -138,4 +148,5 @@ window.onload = () => {
     returnFirstPalett();
   }
   selecionaCor();
+  pintaPixel();
 };
