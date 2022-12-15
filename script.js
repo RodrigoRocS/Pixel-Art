@@ -72,6 +72,22 @@ const changeColBtn = () => {
   pegaBody.appendChild(criaBtn);
 };
 
+const limpaPixel = () => {
+  const getPixel = document.getElementsByClassName('pixel');
+  for (let index = 0; index < getPixel.length; index += 1) {
+    getPixel[index].style.backgroundColor = 'white';
+  }
+};
+
+const resetColBtn = () => {
+  const criaBtnRes = document.createElement('button');
+  criaBtnRes.id = 'clear-board';
+  criaBtnRes.innerText = 'Limpar';
+  criaBtnRes.addEventListener('click', limpaPixel);
+  criaBtnRes.style.marginTop = '25px';
+  pegaBody.appendChild(criaBtnRes);
+};
+
 const returnFirstPalett = () => {
   const pegaCores = document.querySelectorAll('.color');
   const getColorsBack = JSON.parse(localStorage.getItem('colorPalette'));
@@ -85,7 +101,7 @@ const criarPainel = () => {
   const painelCriar = document.createElement('div');
   painelCriar.id = 'pixel-board';
   pegaBody.appendChild(painelCriar);
-  painelCriar.style.display = 'inline-block';
+  painelCriar.style.display = 'block';
   painelCriar.style.padding = '25px';
   painelCriar.style.border = '2px solid black';
 
@@ -139,9 +155,10 @@ const pintaPixel = () => {
 window.onload = () => {
   titleHeader();
   colorPallet();
+  resetColBtn();
+  criarPainel();
   colorBoxes();
   paintBox();
-  criarPainel();
   pixelCss();
   changeColBtn();
   if (localStorage.getItem('colorPalette')) {
