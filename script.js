@@ -117,10 +117,23 @@ const criarPainel = () => {
   }
 };
 
+const returnSavedDesign = () => {
+  const getPixel = document.getElementsByClassName('pixel');
+  const getPixelBack = JSON.parse(localStorage.getItem('pixelBoard'));
+
+  for (let index = 0; index < getPixel.length; index += 1) {
+    getPixel[index].style.backgroundColor = getPixelBack[index];
+  }
+};
+
 const pixelCss = () => {
   const pegaPixel = document.getElementsByClassName('pixel');
   for (let index = 0; index < pegaPixel.length; index += 1) {
-    pegaPixel[index].style.backgroundColor = 'white';
+    if (localStorage.getItem('pixelBoard') === null) {
+      pegaPixel[index].style.backgroundColor = 'white';
+    } else {
+      returnSavedDesign();
+    }
     pegaPixel[index].style.width = '40px';
     pegaPixel[index].style.height = '40px';
     pegaPixel[index].style.border = '1px solid black';
@@ -142,28 +155,49 @@ const selecionaCor = () => {
   }
 };
 
+const saveDesing = () => {
+  const getPixel = document.getElementsByClassName('pixel');
+  const desenhoSalv = [];
+  for (let index = 0; index < getPixel.length; index += 1) {
+    desenhoSalv.push(getPixel[index].style.backgroundColor);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(desenhoSalv));
+};
+
 const pintaPixel = () => {
   const getPixel = document.getElementsByClassName('pixel');
   for (let index = 0; index < getPixel.length; index += 1) {
     getPixel[index].addEventListener('click', (event) => {
       const selecionado = document.querySelector('.selected');
       event.target.style.backgroundColor = selecionado.style.backgroundColor;
+      saveDesing();
     });
   }
+};
+
+const saveBtn = () => {
+  const saveBt = document.createElement('button');
+  saveBt.id = 'save-btn';
+  saveBt.innerText = 'Salvar';
+  saveBt.addEventListener('click', saveDesing);
+  saveBt.style.marginTop = '25px';
+  pegaBody.appendChild(saveBt);
 };
 
 window.onload = () => {
   titleHeader();
   colorPallet();
   resetColBtn();
+  changeColBtn();
+  // saveBtn();
   criarPainel();
   colorBoxes();
   paintBox();
   pixelCss();
-  changeColBtn();
   if (localStorage.getItem('colorPalette')) {
     returnFirstPalett();
   }
   selecionaCor();
   pintaPixel();
+  saveDesing();
 };
