@@ -112,6 +112,20 @@ const pixelCss = () => {
   }
 };
 
+const selecionaCor = () => {
+  const pegaCor = document.querySelectorAll('.color');
+  for (let index = 0; index < pegaCor.length; index += 1) {
+    pegaCor[0].classList.add('selected');
+    pegaCor[index].addEventListener('click', (event) => {
+      const selecionado = document.querySelector('.selected');
+      if (selecionado) {
+        selecionado.classList.remove('selected');
+      }
+      event.target.classList.add('selected');
+    });
+  }
+};
+
 window.onload = () => {
   titleHeader();
   colorPallet();
@@ -123,4 +137,5 @@ window.onload = () => {
   if (localStorage.getItem('colorPalette')) {
     returnFirstPalett();
   }
+  selecionaCor();
 };
