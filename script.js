@@ -127,14 +127,14 @@ const criarPainel = (val) => {
 };
 
 const salvaPainel = () => {
-  const telaPixel = document.getElementById('pixel-board');
-  localStorage.setItem('boardSize', telaPixel.innerHTML);
+  const pegaInput = document.getElementById('board-size').value;
+  localStorage.setItem('boardSize', pegaInput);
 };
 
-const retornaPainel = () => {
-  let telaPixel = document.getElementById('pixel-board');
-  telaPixel = localStorage.getItem('boardSize');
-};
+// const retornaPainel = () => {
+//   const telaPixel = localStorage.getItem('boardSize');
+//   console.log(telaPixel.length);
+// };
 
 const returnSavedDesign = () => {
   const getPixel = document.getElementsByClassName('pixel');
@@ -241,7 +241,9 @@ window.onload = () => {
   resetColBtn();
   changeColBtn();
   boardSize();
-  criarPainel(5);
+  if (localStorage.getItem('boardSize') === null) {
+    criarPainel(5);
+  } criarPainel(+(localStorage.getItem('boardSize')));
   colorBoxes();
   paintBox();
   pixelCss();
