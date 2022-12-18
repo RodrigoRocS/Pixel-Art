@@ -72,11 +72,21 @@ const changeColBtn = () => {
   pegaBody.appendChild(criaBtn);
 };
 
+const saveDesing = () => {
+  const getPixel = document.getElementsByClassName('pixel');
+  const desenhoSalv = [];
+  for (let index = 0; index < getPixel.length; index += 1) {
+    desenhoSalv.push(getPixel[index].style.backgroundColor);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(desenhoSalv));
+};
+
 const limpaPixel = () => {
   const getPixel = document.getElementsByClassName('pixel');
   for (let index = 0; index < getPixel.length; index += 1) {
     getPixel[index].style.backgroundColor = 'white';
   }
+  saveDesing();
 };
 
 const resetColBtn = () => {
@@ -97,7 +107,7 @@ const returnFirstPalett = () => {
   }
 };
 
-const criarPainel = () => {
+const criarPainel = (val) => {
   const painelCriar = document.createElement('div');
   painelCriar.id = 'pixel-board';
   pegaBody.appendChild(painelCriar);
@@ -105,16 +115,25 @@ const criarPainel = () => {
   painelCriar.style.padding = '25px';
   painelCriar.style.border = '2px solid black';
 
-  for (let index = 0; index < 5; index += 1) {
+  for (let index = 0; index < val; index += 1) {
     const criaLinha = document.createElement('div');
-    // criaLinha.className = 'pixel';
     painelCriar.appendChild(criaLinha);
-    for (let index2 = 0; index2 < 5; index2 += 1) {
+    for (let index2 = 0; index2 < val; index2 += 1) {
       const criaColuna = document.createElement('div');
       criaColuna.className = 'pixel';
       criaLinha.appendChild(criaColuna);
     }
   }
+};
+
+const salvaPainel = () => {
+  const telaPixel = document.getElementById('pixel-board');
+  localStorage.setItem('boardSize', telaPixel.innerHTML);
+};
+
+const retornaPainel = () => {
+  let telaPixel = document.getElementById('pixel-board');
+  telaPixel = localStorage.getItem('boardSize');
 };
 
 const returnSavedDesign = () => {
@@ -155,15 +174,6 @@ const selecionaCor = () => {
   }
 };
 
-const saveDesing = () => {
-  const getPixel = document.getElementsByClassName('pixel');
-  const desenhoSalv = [];
-  for (let index = 0; index < getPixel.length; index += 1) {
-    desenhoSalv.push(getPixel[index].style.backgroundColor);
-  }
-  localStorage.setItem('pixelBoard', JSON.stringify(desenhoSalv));
-};
-
 const pintaPixel = () => {
   const getPixel = document.getElementsByClassName('pixel');
   for (let index = 0; index < getPixel.length; index += 1) {
@@ -175,13 +185,54 @@ const pintaPixel = () => {
   }
 };
 
-const saveBtn = () => {
-  const saveBt = document.createElement('button');
-  saveBt.id = 'save-btn';
-  saveBt.innerText = 'Salvar';
-  saveBt.addEventListener('click', saveDesing);
-  saveBt.style.marginTop = '25px';
-  pegaBody.appendChild(saveBt);
+const boardSize = () => {
+  const criaInput = document.createElement('input');
+  criaInput.id = 'board-size';
+  criaInput.type = 'number';
+  criaInput.min = '1';
+  criaInput.max = '50';
+  const btnVqv = document.createElement('button');
+  btnVqv.id = 'generate-board';
+  btnVqv.innerText = 'VQV';
+  const criaDivInput = document.createElement('div');
+  criaDivInput.id = 'divInput';
+  pegaBody.appendChild(criaDivInput);
+  const divDoInp = document.getElementById('divInput');
+  divDoInp.appendChild(criaInput);
+  divDoInp.appendChild(btnVqv);
+};
+
+const replacePanel = (value) => {
+  const pegaPixel = document.getElementsByClassName('pixel');
+  const pegaBoard = document.getElementById('pixel-board');
+  pegaBody.removeChild(pegaBoard);
+  criarPainel(+value);
+  pixelCss();
+  for (let index = 0; index < pegaPixel.length; index += 1) {
+    pegaPixel[index].style.backgroundColor = 'white';
+  }
+  selecionaCor();
+  pintaPixel();
+  saveDesing();
+  salvaPainel();
+};
+
+const alertaInput = () => {
+  let pegaInput = document.getElementById('board-size').value;
+  if (pegaInput === '') {
+    alert('Board inválido!');
+    pegaInput = '5';
+  } else if (pegaInput < 5) {
+    pegaInput = '5';
+  } else if (pegaInput > 50) {
+    pegaInput = '50';
+  }
+  replacePanel(pegaInput);
+};
+
+const btnInput = () => {
+  const btnInp = document.getElementById('generate-board');
+  btnInp.addEventListener('click', alertaInput);
 };
 
 window.onload = () => {
@@ -189,8 +240,8 @@ window.onload = () => {
   colorPallet();
   resetColBtn();
   changeColBtn();
-  // saveBtn();
-  criarPainel();
+  boardSize();
+  criarPainel(5);
   colorBoxes();
   paintBox();
   pixelCss();
@@ -200,4 +251,5 @@ window.onload = () => {
   selecionaCor();
   pintaPixel();
   saveDesing();
+  btnInput();
 };
